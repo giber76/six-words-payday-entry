@@ -17,6 +17,11 @@ if (words.length !== 6) {
 if (STORY.length < 1 || STORY.length > 60) {
   throw new Error(`Story must be 1-60 characters, got ${STORY.length}`);
 }
+// No leading/trailing whitespace and no double spaces: the gate counts
+// every byte, so a stray space would change the entry the judge sees.
+if (STORY !== STORY.trim() || /\s{2,}/.test(STORY)) {
+  throw new Error("Story must have no leading/trailing or double whitespace");
+}
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", STORY, "utf8");
